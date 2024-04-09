@@ -1,20 +1,57 @@
 import csv
 
-path = 'D:/Code/storage_architecture_py/Задание 3. Файлы в формате CSV'
-summ = 0
-k = 0
+# Функция для чтения данных из CSV файла и возврата их в виде списка словарей
+def read_csv_file(filename):
+    data = []
+    with open(filename, 'r', encoding='utf-8') as csvfile:
+        reader = csv.DictReader(csvfile, delimiter=';')
+        for row in reader:
+            data.append(row)
+    return data
 
-with open(f'{path}/var2.csv', 'r') as csvfile:
-    csvreader = csv.reader(csvfile)
-    for row in csvreader:
-        print(row)
-        print(row[0].split(';'))
-        row[0] = row[0].split(';')
-        print(row[0][0][2:], row[0][0][3:])
-        if (row[0][0][2:] or row[0][0][3:]) in ('сентябрь', 'октябрь', 'ноябрь'):
-            summ += int(row[0][2])
-            k += 1
-        
+# Функция для вычисления среднего значения
+def calculate_average(data, column):
+    total = sum(float(row[column]) for row in data)
+    return total / len(data)
 
-# sr = summ / k
-# print(sr)
+# Функция для вычисления процентного соотношения
+def calculate_percentage(data, column, values):
+    count = sum(1 for row in data if row[column] in values)
+    return (count / len(data)) * 100
+
+# Функция для фильтрации данных и записи их в новый файл
+def filter_and_write_to_csv(data, filename):
+    header = data[0].keys()
+    filtered_data = [row for row in data if float(row['Температура']) > 0]
+    with open(filename, 'w', encoding='utf-8') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=header)
+        writer.writeheader()
+        writer.writerows(filtered_data)
+
+# Открываем файл CSV и читаем данные
+filename = 'D:/Code/storage_architecture_py/Задание 3. Файлы в формате CSV/var2.csv'
+weather_data = read_csv_file(filename)
+
+# Задание 1: Среднее количество осадков за сутки в осенние месяцы
+autumn_days = ['сентября', 'октября', 'ноября']
+autumn_rainfall = [float(row['Осадки']) for row in weather_data if row['Дата'].split()[1].lower() in autumn_days]
+if len(autumn_rainfall) > 0:
+    average_autumn_rainfall = sum(autumn_rainfall) / len(autumn_rainfall)
+    print("Среднее количество осадков в осенние месяцы:", average_autumn_rainfall)
+else:
+    print("Нет данных о осенних осадках.")
+
+# Задание 2: Средняя температура в дни, когда дул северный ветер
+north_wind_temperatures = [float(row['Температура']) for row in weather_data if row['Ветер'] == 'С']
+average_north_wind_temperature = sum(north_wind_temperatures) / len(north_wind_temperatures)
+print("Средняя температура в дни с северным ветром:", average_north_wind_temperature)
+
+# Задание 3: Процентное соотношение количества дней с ветрами 'В', 'СВ' и 'ЮВ'
+directions_of_interest = ['В', 'СВ', 'ЮВ']
+percentage_of_interest_directions = calculate_percentage(weather_data, 'Ветер', directions_of_interest)
+print("Процентное соотношение ветров 'В', 'СВ', 'ЮВ':", percentage_of_interest_directions)
+
+# Задание 4: Создание файла с данными о днях с температурой выше нуля градусов
+output_filename = 'D:/Code/storage_architecture_py/Задание 3. Файлы в формате CSV/res.csv'
+filter_and_write_to_csv(weather_data, output_filename)
+print("Файл res.csv успешно создан.")
