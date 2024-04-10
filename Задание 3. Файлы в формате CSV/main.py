@@ -1,25 +1,16 @@
 import csv
 
-# Функция для чтения данных из CSV файла и возврата их в виде списка словарей
-def read_csv_file(filename):
-    data = []
-    with open(filename, 'r', encoding='utf-8') as csvfile:
-        reader = csv.DictReader(csvfile, delimiter=';')
-        for row in reader:
-            data.append(row)
-    return data
-
-# Функция для вычисления среднего значения
+# Вычисление среднего значения
 def calculate_average(data, column):
     total = sum(float(row[column]) for row in data)
     return total / len(data)
 
-# Функция для вычисления процентного соотношения
+# Вычисление процентного соотношения
 def calculate_percentage(data, column, values):
     count = sum(1 for row in data if row[column] in values)
     return (count / len(data)) * 100
 
-# Функция для фильтрации данных и записи их в новый файл
+# Фильтрация данных и запись их в новый файл
 def filter_and_write_to_csv(data, filename):
     header = data[0].keys()
     filtered_data = [row for row in data if float(row['Температура']) > 0]
@@ -28,9 +19,12 @@ def filter_and_write_to_csv(data, filename):
         writer.writeheader()
         writer.writerows(filtered_data)
 
-# Открываем файл CSV и читаем данные
-filename = 'D:/Code/storage_architecture_py/Задание 3. Файлы в формате CSV/var2.csv'
-weather_data = read_csv_file(filename)
+weather_data = []
+filename = './Задание 3. Файлы в формате CSV/var2.csv'
+with open(filename, 'r', encoding='utf-8') as csvfile:
+        reader = csv.DictReader(csvfile, delimiter=';')
+        for row in reader:
+            weather_data.append(row)
 
 # Задание 1: Среднее количество осадков за сутки в осенние месяцы
 autumn_days = ['сентября', 'октября', 'ноября']
@@ -52,6 +46,6 @@ percentage_of_interest_directions = calculate_percentage(weather_data, 'Вете
 print("Процентное соотношение ветров 'В', 'СВ', 'ЮВ':", percentage_of_interest_directions)
 
 # Задание 4: Создание файла с данными о днях с температурой выше нуля градусов
-output_filename = 'D:/Code/storage_architecture_py/Задание 3. Файлы в формате CSV/res.csv'
+output_filename = './Задание 3. Файлы в формате CSV/res.csv'
 filter_and_write_to_csv(weather_data, output_filename)
 print("Файл res.csv успешно создан.")

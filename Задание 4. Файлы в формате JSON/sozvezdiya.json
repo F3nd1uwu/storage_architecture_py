@@ -1,0 +1,41 @@
+{
+    {
+        "name": "Orion",
+        "abbreviation": "Ori",
+        "area": 594,
+        "brightest_stars": 
+        [
+            {"name": "Rigel", "brightness": 0.13},
+            {"name": "Betelgeuse", "brightness": 0.45},
+            {"name": "Bellatrix", "brightness": 1.64},
+            {"name": "Alnilam", "brightness": 1.69}
+        ],
+        "neighboring_constellations": ["Taurus", "Gemini", "Eridanus"]
+    },
+    {
+        "name": "Ursa Major",
+        "abbreviation": "UMa",
+        "area": 1280,
+        "brightest_stars": 
+        [
+            {"name": "Dubhe", "brightness": 1.79},
+            {"name": "Alioth", "brightness": 1.76},
+            {"name": "Alkaid", "brightness": 1.85},
+            {"name": "Mizar", "brightness": 2.27}
+        ],
+        "neighboring_constellations": ["Draco", "Leo", "Canes Venatici"]
+    },
+    {
+        "name": "Cygnus",
+        "abbreviation": "Cyg",
+        "area": 804,
+        "brightest_stars": 
+        [
+            {"name": "Deneb", "brightness": 1.25},
+            {"name": "Sadr", "brightness": 2.23},
+            {"name": "Gienah", "brightness": 2.46},
+            {"name": "Delta Cygni", "brightness": 2.87}
+        ],
+        "neighboring_constellations": ["Lyra", "Cepheus", "Pegasus"]
+    }
+}
